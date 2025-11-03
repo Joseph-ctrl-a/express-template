@@ -1,0 +1,23 @@
+{
+  "source": {
+    "include": ["utils/typedefs.js", "."],
+    "exclude": ["node_modules", "docs"],
+    "includePattern": ".js$"
+  },
+  "opts": {
+    "destination": "./docs",
+    "recurse": true,
+    "verbose": true,
+    "template": "node_modules/better-docs"
+  },
+  "plugins": ["node_modules/better-docs/plugin"],
+  "templates": {
+    "better-docs": {
+      "name": "Express Backend Template"
+    }
+  },
+  "babel": {
+    "extensions": ["js"],
+    "presets": ["@babel/preset-env"]
+  }
+}

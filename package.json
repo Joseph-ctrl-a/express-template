@@ -1,0 +1,45 @@
+{
+  "name": "express-backend-template",
+  "version": "1.0.0",
+  "description": "A modular, dependency-injected Express + Mongoose backend boilerplate with auto-loading routes, centralized helpers, and full JSDoc documentation.",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "lint": "eslint . --ext .js",
+    "docs": "node fixDocs.js && npx jsdoc -c jsdoc.json --quiet"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "boilerplate",
+    "backend",
+    "api",
+    "nodejs",
+    "jsdoc",
+    "template",
+    "modular",
+    "dependency-injection"
+  ],
+  "author": "Joseph Ogbomo",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.2",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.5",
+    "@babel/register": "^7.28.3",
+    "better-docs": "^2.3.2",
+    "eslint": "^9.38.0",
+    "jsdoc": "^4.0.5",
+    "nodemon": "^3.1.10",
+    "taffydb": "^2.7.3"
+  }
+}
