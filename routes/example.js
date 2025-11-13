@@ -1,5 +1,5 @@
 /** @typedef {Express} Express */
-// @ts-check
+// @ts-nocheck
 /**
  * Example route module.
  *

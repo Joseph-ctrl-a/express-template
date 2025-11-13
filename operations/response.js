@@ -98,5 +98,48 @@ module.exports = () => {
     noContent({ res }) {
       return res.status(204).send()
     },
+
+    /**
+     * Sends a JWT to the client via an HTTP-only cookie.
+     *
+     * ⚠️ IMPORTANT:
+     * This method should ONLY be used for authentication endpoints such as:
+     * - User login
+     * - User registration (if auto-login is desired)
+     * - Token refresh
+     *
+     * Do NOT use this helper for regular API responses.
+     * It will overwrite the JWT cookie on every call and break session handling.
+     *
+     * Cookie Details:
+     * - httpOnly: true  → prevents JavaScript access (XSS protection)
+     * - secure: true    → sends cookie only over HTTPS
+     * - sameSite: strict → prevents CSRF from external sites
+     * - maxAge: 3600000 → cookie expires after 1 hour
+     *
+     * @function jwt
+     * @param {Object} options - Options for sending the JWT.
+     * @param {Express.Response} options.res - Express response object.
+     * @param {string} options.token - The JWT string to send.
+     * @returns {Express.Response} Returns the JSON success response.
+     *
+     * @example
+     * // In your login controller
+     * const token = generateJwt(user._id)
+     * response.jwt({ res, token })
+     *
+     * @example
+     * // In your refresh token route
+     * response.jwt({ res, token: newAccessToken })
+     */
+    jwt({ res, token }) {
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        maxAge: 3600000,
+      })
+      return res.json({ success: true })
+    },
   }
 }

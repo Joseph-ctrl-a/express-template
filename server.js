@@ -24,6 +24,7 @@ const { connectDB } = require('./db/connect')
 const loadRoutes = require('./loaders/loadRoutes')
 const loadDatabase = require('./loaders/loadDatabase')
 const loadMiddleware = require('./loaders/loadMiddleWare')
+const { verifyPasswordClientSide } = require('./auth/jwt')
 
 /**
  * Initializes the full application startup sequence.

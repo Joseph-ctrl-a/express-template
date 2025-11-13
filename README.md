@@ -56,6 +56,7 @@ utils/ # Utility functions (error, filtering, controller utils)
 validators/ # Zod schemas for input validation
 helpers.js # Centralized helper factory
 server.js # Main entry point
+auth/ # Contains all authentication logic
 
 ## Author
 
