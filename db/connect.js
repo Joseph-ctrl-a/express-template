@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const { DatabaseConnectionError } = require('../utils/error');
+const mongoose = require('mongoose')
+const { DatabaseConnectionError } = require('../utils/error')
 
-const DB_URL = process.env.DB_URL;
+const DB_URL = process.env.DB_URL
 
 /**
  * MongoDB Connection Utility
@@ -31,12 +31,12 @@ const DB_URL = process.env.DB_URL;
  */
 const connectDB = async () => {
   try {
-    await mongoose.connect(DB_URL);
-    console.log('Connected to the database');
+    await mongoose.connect(DB_URL)
+    console.log(`Connected To the DB ${mongoose.connection.name}`)
   } catch (error) {
-    console.error(error);
-    throw new DatabaseConnectionError('Database connection failed');
+    console.error(error)
+    throw new DatabaseConnectionError('Database connection failed')
   }
-};
+}
 
-module.exports = { connectDB };
+module.exports = { connectDB }

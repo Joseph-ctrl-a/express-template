@@ -46,7 +46,20 @@ function createHandleReturn(error, response) {
  * const controller = controllerResolver('tasks', 'getAll', helpers)
  * route.get('/', controller)
  */
-function controllerResolver(name, action, helpers) {
+/**
+ * Resolves a controller and returns the requested action handler.
+ * Dependency injection is optional.
+ *
+ * Controller may export:
+ * 1. inject({ helpers }) → returns handlers
+ * 2. Direct handlers (no DI)
+ *
+ * @param {string} name - Controller folder & file name.
+ * @param {string} action - The action method to execute.
+ * @param {Object} helpers - Optional helper dependencies.
+ * @returns {Function} Express route handler with async safety.
+ */
+function controllerResolver(name, action, helpers = {}) {
   const controllerPath = path.join(
     __dirname,
     '..',
@@ -54,27 +67,30 @@ function controllerResolver(name, action, helpers) {
     name,
     `${name}.js`,
   )
+
   const controllerModule = require(controllerPath)
 
-  if (typeof controllerModule.inject !== 'function') {
-    throw new Error(`Controller "${name}" must export an "inject" function.`)
-  }
+  let controller
 
-  const controller = controllerModule.inject({ helpers })
+  if (typeof controllerModule.inject === 'function') {
+    controller = controllerModule.inject({ helpers })
+  } else {
+    controller = controllerModule
+  }
 
   if (!controller[action] || typeof controller[action] !== 'function') {
-    throw new Error(`Controller "${name}" does not have method "${action}".`)
+    throw new Error(`Controller "${name}" does not define action "${action}".`)
   }
 
-  // Wrap in async handler for safety
   return async (req, res, next) => {
     try {
       await controller[action](req, res, next)
     } catch (err) {
-      helpers.error.throwServer(res, err.message)
+      next(err)
     }
   }
 }
+
 module.exports = {
   handleDependencyError,
   createHandleReturn,

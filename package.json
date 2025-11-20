@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "nodemon --exec \"cls && node server.js\"",
     "start": "node server.js",
     "lint": "eslint . --ext .js",
     "docs": "node fixDocs.js && npx jsdoc -c jsdoc.json --quiet"

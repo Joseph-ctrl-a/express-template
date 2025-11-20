@@ -1,5 +1,6 @@
+const middleware = require('../middleware/middleware')
+
 /** @typedef {Express} Express */
-const middleware = require('../operations/middleware')()
 
 /**
  * Global Middleware Loader
@@ -24,9 +25,9 @@ const middleware = require('../operations/middleware')()
  */
 module.exports = app => {
   app.use([
-    middleware.json(),
+    middleware.jsonParser(),
     middleware.logger(),
-    middleware.urlencoded(),
+    middleware.urlencodedParser(),
     middleware.cors(),
   ])
 }

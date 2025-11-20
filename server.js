@@ -17,15 +17,13 @@ const express = require('express')
 const app = express()
 
 // --- Core Imports ---
-const { helperObject } = require('./helpers')
 const { connectDB } = require('./db/connect')
 
 // --- Loaders (modular startup steps) ---
 const loadRoutes = require('./loaders/loadRoutes')
 const loadDatabase = require('./loaders/loadDatabase')
 const loadMiddleware = require('./loaders/loadMiddleWare')
-const { verifyPasswordClientSide } = require('./auth/jwt')
-
+const loadErrorHandler = require('./loaders/loadErrorHandler')
 /**
  * Initializes the full application startup sequence.
  *
@@ -47,8 +45,9 @@ const startApp = async () => {
     loadMiddleware(app)
 
     // --- Load all route modules dynamically ---
-    await loadRoutes(app, helperObject())
+    loadRoutes(app)
 
+    loadErrorHandler(app)
     // --- Connect to database and start server ---
     await loadDatabase(connectDB, app)
   } catch (error) {
@@ -59,5 +58,3 @@ const startApp = async () => {
 
 // --- Execute startup sequence ---
 startApp()
-
-module.exports = app

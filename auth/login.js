@@ -118,54 +118,10 @@ function createJWT(userId) {
  * @example
  * app.post("/login", handleLogin);
  */
-async function handleLogin(req, res, next) {
-  try {
-    const userInput = req.body
-
-    // 1. Validate raw object type
-    if (typeof userInput !== 'object') {
-      throw new HTTPError.InvalidParamTypeError(
-        'userObject',
-        'object',
-        typeof userInput,
-      )
-    }
-
-    // 2. Validate structure with Zod
-    const result = user.safeParse(userInput)
-    if (!result.success) {
-      throw new HTTPError.BadRequestError('Invalid user schema')
-    }
-
-    const { email, password } = result.data
-
-    // 3. Find user
-    const foundUser = await User.findOne({ email })
-    if (!foundUser) {
-      throw new HTTPError.NotFoundError('User not found')
-    }
-
-    // 4. Verify password
-    const passwordMatches = await verifyPassword(password, foundUser.password)
-    if (!passwordMatches) {
-      throw new HTTPError.BadRequestError('Incorrect email or password')
-    }
-
-    // 5. Issue JWT in secure cookie
-    const token = createJWT(foundUser._id.toString())
-
-    return response.jwt({ res, token })
-  } catch (err) {
-    next(err)
-  }
-}
+async function handleLogin(req, res, next) {}
 
 /* ---------------------------------------------------------- */
 
 module.exports = {
   handleLogin,
-  hashPassword,
-  verifyPassword,
-  createJWT,
-  buildPayload,
 }
